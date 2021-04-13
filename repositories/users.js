@@ -5,7 +5,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-class UserRepository {
+class UsersRepository {
     constructor(filename) {
         if(!filename) {
             // throw error if no filename is passed while making an instance
@@ -109,14 +109,4 @@ class UserRepository {
     }
 }
 
-const test = async() => {
-    const repo = new UserRepository('users.json');
-    // await repo.delete('fcaf14e3');
-    // await repo.create({ email: 'sazz.pranto96@gmail.com', password: '123456' });
-    // await repo.update('a1dfffsa9bda1', { email: "sazthossain@gmail.com", password: '1234' });
-    // const users = await repo.getAll();
-    const users = await repo.getOneBy( { email: "sazz.pranto96@gmail.com" });
-    console.log(users);
-};
-
-test();
+module.exports = new UsersRepository('users.json');

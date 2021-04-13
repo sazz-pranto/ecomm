@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const usersRepo = require('./repositories/users.js');  // contains UsersRepository
 
 const app = express();
 // urlencoded method takes out any html form data and make an object
@@ -37,8 +38,21 @@ app.get('/', (req, res) => {
     `);
 });
 
-app.post('/', (req, res) => {
-    console.log(req.body);
+app.post('/', async (req, res) => { // async keyword is used cause usersRepo has await
+    const { email, password, passwordConfirmation } = req.body;
+    /* getOneBy requires a filter object as param, here the email
+    property is given to see if this email is already in use or not
+    getOneBy has some async functionality, so await is used */
+    const existingUser = await usersRepo.getOneBy({ email: email });
+    if(existingUser) {
+        // if there's already an user with this email, send this
+        return res.send('Email is already in use!');
+    }
+    if(password !== passwordConfirmation) {
+        // if passwords do not match, send this
+        return res.send('Passwords must match');
+    }
+
     res.send('Account created!!!');
 });
 
