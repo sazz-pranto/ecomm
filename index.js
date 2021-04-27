@@ -1,17 +1,23 @@
 const express = require('express');
+
 const bodyParser = require('body-parser');  // bodyParser is a middleware 
 const cookieSession = require('cookie-session');  // cookie-session is a middleware function
+
 const authRouter = require('./routes/admin/auth');
+const productsRouter = require('./routes/admin/products');
 
 const app = express();
+
+app.use(express.static('public')); // exposing the public directories
 // urlencoded method takes out any html form data and make an object
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     cookieSession({
-        keys: ['OglplzxYqD3fKLadkj89fs7mv']
+        keys: ['OglplzxYqD3fKLadkj89fs7mv']  // random key
     })
 );
 app.use(authRouter);
+app.use(productsRouter);
 
 //this code is similar to how bodyParser code is written
 // // middleware function->
