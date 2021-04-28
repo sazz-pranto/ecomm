@@ -14,7 +14,7 @@ module.exports = class Repository {
         this.filename = filename;
         try {
             /* here synchronous methods are being used inside of this constructor since 
-            constructors in javascript generally does not work asynchronously */
+            constructors in javascript generally do not work asynchronously */
             fs.accessSync(this.filename); // Synchronously tests a user's permissions for the file or directory specified by path(1st param).
         } catch(err) {
             // catch error if file does not exist and create a file with the given name
@@ -27,9 +27,8 @@ module.exports = class Repository {
         attributes.id = this.randomId();
 
         const records = await this.getAll();
-        records.push = attributes; // pushing new record with its id
+        records.push(attributes); // pushing new record with its id
         await this.writeAll(records);
-
         return attributes;
     }
 

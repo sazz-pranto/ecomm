@@ -3,13 +3,11 @@
 
 const express = require('express');
 
-/* validationResult will be an array of results(errors) after a validation check is done */
-const { validationResult } = require('express-validator');
-
 const usersRepo = require('../../repositories/users'); // users.js file
 const router = express.Router();
 const signupTemplate = require('../../views/admin/auth/signup')  // html for signup
 const signinTemplate = require('../../views/admin/auth/signin'); // html for signin
+const { handleErrors } = require('./middlewares');
 
 const { 
     requireEmail,
@@ -28,13 +26,9 @@ router.get('/signup', (req, res) => {
 router.post(
     '/signup',
     [ requireEmail, requirePassword, requirePasswordConfirmation ], // validation checks
-    async (req, res) => { // async keyword is used cause usersRepo has await
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            // if errors found, let the user sign up again sending the sign up form
-            return res.send(signupTemplate({ req: req, errors: errors }));
-        }
-        const { email, password, passwordConfirmation } = req.body;
+    handleErrors(signupTemplate), // reference to the sign up template is passed so that it can be called by the middleware when necessary
+    async (req, res) => {
+        const { email, password } = req.body;
 
         // create a user
         const user = await usersRepo.create({ email: email, password: password });
@@ -49,7 +43,7 @@ router.post(
         req.session.userId = user.id;  
         /* cookie-session adds a session property to the incoming request object when a response is sent
         to recognize a user, here the user's id is being stored to a cookie */
-        res.send('Account created!!!');
+        res.redirect('/admin/products');
     }
 );
 
@@ -73,19 +67,14 @@ router.get('/signin' ,(req, res) => {
 router.post(
     '/signin',
     [ requireEmailExists, requireValidPassword ], // validation checks
+    handleErrors(signinTemplate), // reference to the sign in template is passed so that it can be called by the middleware when necessary
     async (req, res) => {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            // if errors found, let the user sign in again sending the sign in form
-            return res.send(signinTemplate({ errors: errors }));
-        }
-        
         const { email } = req.body;
         
         const user = await usersRepo.getOneBy({ email: email });
         // if user's email and password are valid, set a cookie for the user using its id
         req.session.userId = user.id;
-        res.send('You are signed in');
+        res.redirect('/admin/products');
     }
 );
 

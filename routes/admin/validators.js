@@ -13,12 +13,14 @@ module.exports = {
     requireTitle:
         check('title')
             .trim()
-            .isLength({ min: 3, max: 40 }),
+            .isLength({ min: 3, max: 40 })
+            .withMessage('Must be between 3 and 40 characters!'),
     requirePrice:
         check('price')
             .trim()
             .toFloat()
-            .isFloat({ min: 1 }),
+            .isFloat({ min: 1 })
+            .withMessage('Price must be at least 1!'),
     // signup validation checks:-
     requireEmail: 
         check('email') // sanitizing(triming & normalization) and validating email

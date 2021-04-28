@@ -1,3 +1,7 @@
+// *******************************************
+// to run this script, type "npm run dev" on cli
+// *******************************************
+
 const express = require('express');
 
 const bodyParser = require('body-parser');  // bodyParser is a middleware 
