@@ -1,24 +1,26 @@
 const layout = require('../layout');
 
 module.exports = ({ products }) => {
+    /* renderedProducts will be an array of multiple small html snippets that represent each product, to render
+    the full html, join('') is used to join all the array elements as one html string */
     const renderedProducts = products.map(product => {
             return `
             <tr>
                 <td>${product.title}</td>
                 <td>${product.price}</td>
                 <td>
-                    <a href="">
+                    <a href="/admin/products/${product.id}/edit">
                         <button class="button is-link">Edit</button>
                     </a>
                 </td>
                 <td>
-                    <button class="button is-danger">Delete</button>
+                    <form method="POST" action="/admin/products/${product.id}/delete/">
+                        <button class="button is-danger">Delete</button>
+                    </form>
                 </td>
             </tr>
             `;
         }).join('');
-    /* renderedProducts will be an array of multiple small html snippets that represent each product, to render
-    the full html, join('') is used to join all the array elements as one html string */
 
     return layout({
         content: `

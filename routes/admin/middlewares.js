@@ -5,12 +5,20 @@ module.exports = {
 /* handleErrors() is a middleware to check if there's any error for form data, if any error is found
 it sends the template (form) again, if not control goes to the next step with the help of next()
 handleErrors() returns a function cause middlewares have to be functions to provide to express */
-    handleErrors(templateFunc) {
-        return (req, res, next) => {
+    handleErrors(templateFunc, dataCallback) {
+        return async (req, res, next) => {
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                return res.send(templateFunc({ errors }));
+                /* data will store a product object that made an error, initialized as an empty 
+                object so if dataCallback is not provided we dont try to spread (in line 21) anything 
+                that is undefined */
+                let data = {};
+                // dataCallback is only provided when anything goes wrong while editing a product
+                if(dataCallback) {
+                    data = await dataCallback(req);  // await is used cause this callback is defined with async
+                }
+                return res.send(templateFunc({ errors: errors, ...data }));  // merging whatever properties data has with errors
             }
 
             next();

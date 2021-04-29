@@ -56,7 +56,7 @@ module.exports = class Repository {
         return crypto.randomBytes(4).toString('hex');  // randomly generates 4 bytes of data and converts it into hex string
     }
 
-    // get one user using id
+    // get one user or product using id
     async getOne(id) {
         const records = await this.getAll();
         return records.find((record) => record.id === id);  // find returns the element(here object) if its true (here if the id is is record object)
@@ -69,7 +69,7 @@ module.exports = class Repository {
         await this.writeAll(filteredRecords); // passing the remaining records to writeAll() 
     }
 
-    // update an user using the given id and attributes
+    // update an user or a product using the given id and attributes
     async update(id, attributes) {
         const records = await this.getAll();
         const record = records.find((record) => record.id === id); // find the record for the given id which should be updated
