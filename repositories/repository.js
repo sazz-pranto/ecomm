@@ -1,5 +1,6 @@
 // ********************************************
 // parent class for user and product repository
+// contains generic methods for user and product
 // ********************************************
 
 const fs = require('fs');

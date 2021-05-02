@@ -8,7 +8,9 @@ const bodyParser = require('body-parser');  // bodyParser is a middleware
 const cookieSession = require('cookie-session');  // cookie-session is a middleware function
 
 const authRouter = require('./routes/admin/auth');
-const productsRouter = require('./routes/admin/products');
+const adminProductsRouter = require('./routes/admin/products');  // contains routers for admin
+const productsRouter = require('./routes/products'); // contains routers to show products to the users
+const cartsRouter = require('./routes/carts'); // contains routers to show carts to the users
 
 const app = express();
 
@@ -21,7 +23,9 @@ app.use(
     })
 );
 app.use(authRouter);
+app.use(adminProductsRouter);
 app.use(productsRouter);
+app.use(cartsRouter);
 
 //this code is similar to how bodyParser code is written
 // // middleware function->
