@@ -14,6 +14,8 @@ const cartsRouter = require('./routes/carts'); // contains routers to show carts
 
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 app.use(express.static('public')); // exposing the public directories
 // urlencoded method takes out any html form data and make an object
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,6 +48,6 @@ app.use(cartsRouter);
 //     }
 // };
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Listening');
 });
