@@ -22,7 +22,7 @@ module.exports = ({ content }) => {
                                     <a href=""><i class="fa fa-phone"></i>+880 1234 567 890</a>
                                 </li>
                                 <li>
-                                    <a href=""><i class="fa fa-envelope"></i> shop@myshop.com</a>
+                                    <a href=""><i class="fa fa-envelope"></i> support@shoppinghub.com</a>
                                 </li>
                             </ul>
                         </div>
